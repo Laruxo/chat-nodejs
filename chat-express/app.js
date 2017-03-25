@@ -1,10 +1,5 @@
-let events = require('events');
-let receivedMessageEmitter = new events.EventEmitter();
-require('../websocket')(receivedMessageEmitter);
-
-// HTTP server ------------------------------------------
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
 
 // view engine setup
 app.set('views', 'views');
@@ -19,7 +14,7 @@ app.use('/', require('./routes/index'));
 
 // catch 404 and forward to error handler
 app.use(function(request, response, next) {
-  let error = new Error('Not Found');
+  const error = new Error('Not Found');
   error.status = 404;
   next(error);
 });
@@ -38,3 +33,5 @@ app.use(function(error, request, response) {
 app.listen(3000, function() {
   console.log('You have a server on port 3000');
 });
+
+require('./components/websocket')();

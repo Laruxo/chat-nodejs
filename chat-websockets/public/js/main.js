@@ -8,7 +8,7 @@ button.addEventListener('click', function() {
 });
 
 const host = window.document.location.host.replace(/:.*/, '');
-const ws = new WebSocket('ws://' + host + ':3003/getMessages');
+const ws = new WebSocket('ws://' + host + ':3002/getMessages');
 
 ws.addEventListener('message', function(event) {
   const msg = JSON.parse(event.data);

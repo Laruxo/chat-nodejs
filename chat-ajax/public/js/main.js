@@ -1,10 +1,13 @@
 let messages = document.querySelector('.messages');
 
-function addMessage(content) {
-  let message = document.createElement('li');
-  message.innerHTML = content;
-  messages.appendChild(message);
-}
+let input = document.querySelector('.message__input');
+let button = document.querySelector('.message__button');
+button.addEventListener('click', function() {
+  let xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = handleSentResponse;
+  xhttp.open('POST', '/api/messages/send');
+  xhttp.send(input.value);
+});
 
 function handleSentResponse() {
   if (this.readyState === 4) {
@@ -14,6 +17,11 @@ function handleSentResponse() {
     }
   }
 }
+
+let xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = handleMessagesResponse;
+xhttp.open('GET', '/api/messages/all');
+xhttp.send();
 
 function handleMessagesResponse() {
   if (this.readyState === 4) {
@@ -34,16 +42,8 @@ function pool() {
   xhttp.send();
 }
 
-let input = document.querySelector('.message__input');
-let button = document.querySelector('.message__button');
-button.addEventListener('click', function() {
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = handleSentResponse;
-  xhttp.open('POST', '/api/messages/send');
-  xhttp.send(input.value);
-});
-
-let xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = handleMessagesResponse;
-xhttp.open('GET', '/api/messages/all');
-xhttp.send();
+function addMessage(content) {
+  let message = document.createElement('li');
+  message.innerHTML = content;
+  messages.appendChild(message);
+}

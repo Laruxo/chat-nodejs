@@ -1,4 +1,4 @@
-let messages = [];
+const messages = [];
 
 exports.all = function all() {
   return messages;
