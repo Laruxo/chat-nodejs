@@ -2,7 +2,9 @@
 
 For learning purposes only.
 
-It is intended to start from ajax example and work up to express app.
+It is intended to start from "start" branch. Use master branch only for reference.
+
+For best overview it is recommended to complete ajax example first, then websockets and finally express.
 
 ### Requirements
 
