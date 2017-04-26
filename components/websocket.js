@@ -6,8 +6,8 @@ module.exports = function() {
   id = 0;
 
   const wss = new WebSocket.Server({
-    port: 3001,
-    path: '/getMessages',
+    port: 8001,
+    path: '/chat',
   });
 
   wss.on('connection', handleConnection);
@@ -22,6 +22,7 @@ function handleConnection(ws) {
   const thisClient = ++id;
 
   ws.on('message', function(message) {
+    // TODO: send message to all clients
     ws.send(JSON.stringify([message]));
     db.insert(message);
   });

@@ -1,3 +1,6 @@
+const host = window.document.location.host.replace(/:.*/, '');
+const ws = new WebSocket('ws://' + host + ':8001/chat');
+
 const messages = document.querySelector('.messages');
 
 const input = document.querySelector('.message__input');
@@ -7,9 +10,6 @@ button.addEventListener('click', function() {
   input.value = '';
 });
 
-const host = window.document.location.host.replace(/:.*/, '');
-const ws = new WebSocket('ws://' + host + ':3002/getMessages');
-
 ws.addEventListener('message', function(event) {
   const msg = JSON.parse(event.data);
   for (let i = 0; i < msg.length; i++) {
@@ -18,7 +18,7 @@ ws.addEventListener('message', function(event) {
 });
 
 /**
- * Adds message to messages list
+ * Adds message to messages list.
  * @param {string} content
  */
 function addMessage(content) {

@@ -7,9 +7,6 @@
   "private": true,
   "main": "app.js",
   "dependencies": {
-    "body-parser": "~1.17.1",
-    "express": "~4.15.2",
-    "pug": "~2.0.0-beta12",
     "ws": "~2.3.1"
   },
   "devDependencies": {
