@@ -1,5 +1,3 @@
 .idea
-*/node_modules/
-*/components/
-*/npm-debug.log
-*/package.json
+node_modules/
+npm-debug.log

@@ -12,13 +12,18 @@ receivedMessageEmitter.on('newMessage', function(message) {
 });
 
 const http = require('http');
-http.createServer(handleRequest).listen(3000);
-console.log('You have a server on port 3000');
+http.createServer(handleRequest).listen(8000);
+console.log('You have a server on port 8000');
 
 const url = require('url');
 const db = require('./components/database');
+/**
+ * Handles incoming request.
+ * @param {IncomingMessage} request
+ * @param {ServerResponse} response
+ */
 function handleRequest(request, response) {
-  let uri = url.parse(request.url).href;
+  const uri = url.parse(request.url).href;
 
   switch (uri) {
     /**
@@ -26,7 +31,7 @@ function handleRequest(request, response) {
      * curl -H "Content-Type: text/plain" -d 'your_message_here' localhost:3000/api/messages/send
      */
     case '/api/messages/send':
-      readBody(request, (body) => {
+      readBody(request, body => {
         db.insert(body);
         receivedMessageEmitter.emit('newMessage', body);
 
@@ -51,6 +56,11 @@ function handleRequest(request, response) {
   }
 }
 
+/**
+ * Reads the whole body and executes callback with it.
+ * @param {IncomingMessage} request
+ * @param {Function} callback
+ */
 function readBody(request, callback) {
   let body = '';
   request.on('data', chunk => body += chunk);
@@ -58,17 +68,18 @@ function readBody(request, callback) {
 }
 
 const fs = require('fs');
+/**
+ * Serves a static html file. CSS and JS works too.
+ * @param {ServerResponse} response
+ * @param {string} file
+ */
 function serveFile(response, file) {
   fs.readFile(file, 'binary', function(err, file) {
     if (err) {
-      response.writeHead(500, {
-        'Content-Type': 'text/plain'
-      });
+      response.writeHead(500, {'Content-Type': 'text/plain'});
       response.write(err + '\n');
     } else {
-      response.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
+      response.writeHead(200, {'Content-Type': 'text/html'});
       response.write(file, 'binary');
     }
 
