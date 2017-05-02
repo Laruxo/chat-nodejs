@@ -1,3 +1,5 @@
+const events = require('events');
+const messageEmitter = new events.EventEmitter();
 const db = require('./database');
 const WebSocket = require('ws');
 let id;
@@ -21,9 +23,13 @@ module.exports = function() {
 function handleConnection(ws) {
   const thisClient = ++id;
 
-  ws.on('message', function(message) {
-    // TODO: send message to all clients
+  const listener = function(message) {
     ws.send(JSON.stringify([message]));
+  };
+  messageEmitter.on('newMessage', listener);
+
+  ws.on('message', function(message) {
+    messageEmitter.emit('newMessage', message);
     db.insert(message);
   });
 
@@ -32,6 +38,7 @@ function handleConnection(ws) {
   });
 
   ws.on('close', function(code) {
+    messageEmitter.removeListener('newMessage', listener);
     console.log(thisClient + ' disconnected. Code ' + code);
   });
 
